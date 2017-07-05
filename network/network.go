@@ -8,7 +8,7 @@ import (
 )
 
 // 获取本地IP地址，除loopback地址(127.0.0.1)
-func GetLocalIpAddrs() (ipaddrs []string, err error) {
+func GetLocalIPAddrs() (ipaddrs []string, err error) {
 	var (
 		addrs []net.Addr
 		addr  []net.Addr
