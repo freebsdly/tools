@@ -37,7 +37,7 @@ func GetLocalIPAddrs() (ipaddrs []string, err error) {
 		err = errors.New("can not get any addrs")
 	}
 
-	ipaddrs = make([]string, len(addrs))
+	ipaddrs = make([]string, 0)
 	for _, addr := range addrs {
 		inet, ok := addr.(*net.IPNet)
 		if ok {
