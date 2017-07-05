@@ -12,7 +12,7 @@ import (
 
 //
 var (
-	defaultList = new(CleanList)
+	defaultList = &CleanList{list: new(syncmap.Map)}
 )
 
 // 定义清理器接口
