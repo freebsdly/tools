@@ -27,8 +27,9 @@ type Cleaner struct {
 
 // 实现清理器接口
 // 在此方法中调用回调函数
-func (p *Cleaner) ExitClean() {
+func (p *Cleaner) ExitClean() error {
 	p.F()
+	return nil
 }
 
 // 添加回调函数
@@ -73,6 +74,7 @@ func (p *CleanList) Exit(n int, f func(key interface{}, value interface{}) bool)
 
 // map的range方法的回调函数
 // 用于运行ExitCleaner的Clean方法
+// 必须返回true，否则range会中断
 func runClean(key interface{}, value interface{}) bool {
 	newvalue, ok := value.(ExitCleaner)
 	if !ok {
