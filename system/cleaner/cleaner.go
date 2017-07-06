@@ -31,7 +31,7 @@ func (p *CleanList) Add(ec ExitCleaner) error {
 	if exist {
 		return errors.New("the key already exists")
 	}
-	p.list.Store(ec, "")
+	p.list.Store(&ec, ec)
 	return nil
 }
 
@@ -43,11 +43,11 @@ func (p *CleanList) Run() {
 // map的range方法的回调函数
 // 用于运行ExitCleaner的Clean方法
 func runClean(key interface{}, value interface{}) bool {
-	newkey, ok := key.(ExitCleaner)
+	newvalue, ok := value.(ExitCleaner)
 	if !ok {
 		return true
 	}
-	newkey.ExitClean()
+	newvalue.ExitClean()
 	return true
 }
 
