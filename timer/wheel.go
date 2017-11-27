@@ -93,9 +93,8 @@ func (p *timeWheel) add(j *job) {
 		iwheel = 4
 	}
 	p.Lock()
-	e := p.tvs[iwheel].vector[index].PushBack(j)
-	j.element = e
 	j.lst = p.tvs[iwheel].vector[index]
+	j.element = j.lst.PushBack(j)
 	p.Unlock()
 }
 
@@ -107,7 +106,7 @@ func (p *timeWheel) remove(j *job) {
 // execute timer on current index of tv
 func (p *timeWheel) runTimers() {
 	var (
-		index    = atomic.LoadUint32(&p.jiffies) & tvRootMask
+		index    = p.timeVectorIndex(0)
 		workList *list.List
 	)
 	p.cascade()

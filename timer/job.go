@@ -16,7 +16,7 @@ type job struct {
 
 // init job
 func (p *job) init(now uint32) {
-	p.lst = list.New()
-	p.element = nil
+	//p.lst = list.New()
+	//p.element = nil
 	p.expires = p.period + now
 }
