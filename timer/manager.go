@@ -34,12 +34,27 @@ func (p *manager) Add(j Jober, period uint32, onetime bool) (jid uint32, err err
 
 // Remove job with it's job id
 func (p *manager) Remove(jid uint32) error {
-	jb, exist := p.jids[jid]
+	wj, exist := p.jids[jid]
 	if !exist {
 		return jidDoesNotExistError
 	}
-	p.tw.remove(jb)
+	go p.tw.remove(wj)
 	return nil
+}
+
+func (p *manager) Modify(jid, period uint32, onetime bool) error {
+	wj, exist := p.jids[jid]
+	if !exist {
+		return jidDoesNotExistError
+	}
+	go p.tw.remove(wj)
+
+	wj.oneTime = onetime
+	wj.period = period
+
+	go p.tw.add(wj)
+	return nil
+
 }
 
 // Start Timer
